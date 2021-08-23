@@ -36,13 +36,16 @@ namespace StartFinance.Models
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
 
+        [NotNull]
         public DateTime DateTime { get; set; }
 
         [Unique]
         public string ItemName { get; set; }
 
+        [NotNull]
         public string ShopName { get; set; }
 
+        [NotNull]
         public decimal Price { get; set; }
     }
 }
