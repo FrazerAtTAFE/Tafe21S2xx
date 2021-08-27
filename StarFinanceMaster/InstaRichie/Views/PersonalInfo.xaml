@@ -39,6 +39,7 @@
         <DataTemplate x:Key="PersonalInfoDataViews">
             <Grid>
                 <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding ID}" Visibility="Collapsed" Padding="0,0,5,0"/>
                     <TextBlock Text="{Binding FirstName}" Padding="0,0,5,0"/>
                     <TextBlock Text="{Binding LastName}" Padding="0,0,15,0"/>
                     <TextBlock Text="{Binding DateOfBirth}" Padding="0,0,15,0"/>

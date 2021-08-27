@@ -152,22 +152,14 @@ namespace StartFinance.Views
         {
             if (PersonalInfoView.SelectedItem != null)
             {
+                int AccSelection_id = ((PersonalInfo)PersonalInfoView.SelectedItem).ID;
                 try
                 {
-                    string AccSelection_FirstName = ((PersonalInfo)PersonalInfoView.SelectedItem).FirstName;
-                    string AccSelection_LastName = ((PersonalInfo)PersonalInfoView.SelectedItem).LastName;
-                    if (AccSelection_FirstName == "")
-                    {
-                        MessageDialog dialog = new MessageDialog("Not selected the Item", "Oops..!");
-                        await dialog.ShowAsync();
-                    }
-                    else
-                    {
-                        conn.CreateTable<PersonalInfo>();
-                        var query1 = conn.Table<PersonalInfo>();
-                        var query3 = conn.Query<PersonalInfo>("DELETE FROM PERSONALINFO WHERE FirstName ='" + AccSelection_FirstName + "'" + "AND LastName ='" + AccSelection_LastName + "'");
-                        PersonalInfoView.ItemsSource = query1.ToList();
-                    }
+                    conn.CreateTable<PersonalInfo>();
+                    var query1 = conn.Table<PersonalInfo>();
+                    var query3 = conn.Query<PersonalInfo>("DELETE FROM PERSONALINFO WHERE id ='" + AccSelection_id + "'");
+                    PersonalInfoView.ItemsSource = query1.ToList();
+                    
                 }
                 catch (Exception ex)
                 {
@@ -186,71 +178,82 @@ namespace StartFinance.Views
 
         private async void UpdateItem_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (PersonalInfoView.SelectedItem != null)
             {
-                if (FirstName.Text.ToString() == "")
+                int AccSelection_id = ((PersonalInfo)PersonalInfoView.SelectedItem).ID;
+                try
                 {
-                    MessageDialog dialog = new MessageDialog("First Name Empty", "Oops..!");
-                    await dialog.ShowAsync();
+                    if (FirstName.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("First Name Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else if (LastName.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("Last Name Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else if (Birthday.Date == null)
+                    {
+                        MessageDialog dialog = new MessageDialog("Birthday Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+
+                    else if (Gender.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("Gender Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else if (Email.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("Email Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else if (Phone.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("Phone Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    //create contact table, then insert record into contact table
+                    else
+                    {
+                        string CDay = Birthday.Date.Value.Day.ToString();
+                        string CMonth = Birthday.Date.Value.Month.ToString();
+                        string CYear = Birthday.Date.Value.Year.ToString();
+                        String DateTime = "" + CMonth + "/" + CDay + "/" + CYear;
+
+
+                        conn.CreateTable<PersonalInfo>();
+                        var query1 = conn.Table<PersonalInfo>();
+                        var query3 = conn.Query<PersonalInfo>("UPDATE PERSONALINFO SET FirstName = '" + FirstName.Text.ToString() + "', LastName = '" + LastName.Text.ToString() + "', DateOfBirth = '" + DateTime + "', Gender = '" + Gender.Text.ToString() + "', Email = '" + Email.Text.ToString() + "', Phone = '" + Phone.Text.ToString() + "'WHERE ID = '" + AccSelection_id + "'");
+                        PersonalInfoView.ItemsSource = query1.ToList();
+                    }
                 }
-                else if (LastName.Text.ToString() == "")
+                catch (Exception ex)
                 {
-                    MessageDialog dialog = new MessageDialog("Last Name Empty", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                else if (Birthday.Date == null)
-                {
-                    MessageDialog dialog = new MessageDialog("Birthday Empty", "Oops..!");
-                    await dialog.ShowAsync();
+                    if (ex is FormatException)
+                    {
+                        MessageDialog dialog = new MessageDialog("You forgot to enter some information", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else if (ex is SQLiteException)
+                    {
+                        MessageDialog dialog = new MessageDialog(ex.ToString(), "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        /// no idea
+                    }
                 }
 
-                else if (Gender.Text.ToString() == "")
-                {
-                    MessageDialog dialog = new MessageDialog("Gender Empty", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                else if (Email.Text.ToString() == "")
-                {
-                    MessageDialog dialog = new MessageDialog("Email Empty", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                else if (Phone.Text.ToString() == "")
-                {
-                    MessageDialog dialog = new MessageDialog("Phone Empty", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                //create contact table, then insert record into contact table
-                else
-                {
-                    string CDay = Birthday.Date.Value.Day.ToString();
-                    string CMonth = Birthday.Date.Value.Month.ToString();
-                    string CYear = Birthday.Date.Value.Year.ToString();
-                    String DateTime = "" + CMonth + "/" + CDay + "/" + CYear;
-
-
-                    conn.CreateTable<PersonalInfo>();
-                    var query1 = conn.Table<PersonalInfo>();
-                    var query3 = conn.Query<PersonalInfo>("UPDATE PERSONALINFO SET DateOfBirth = '" + DateTime + "', Gender = '" + Gender.Text.ToString() + "', Email = '" + Email.Text.ToString() + "', Phone = '" + Phone.Text.ToString() + "'WHERE FirstName = '" + FirstName.Text.ToString() + "'" + "AND LastName = '" + LastName.Text.ToString() + "'");
-                    PersonalInfoView.ItemsSource = query1.ToList();
-                }
             }
-            catch (Exception ex)
+            else
             {
-                if (ex is FormatException)
-                {
-                    MessageDialog dialog = new MessageDialog("You forgot to enter some information", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                else if (ex is SQLiteException)
-                {
-                    MessageDialog dialog = new MessageDialog(ex.ToString(), "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                else
-                {
-                    /// no idea
-                }
+                MessageDialog dialog = new MessageDialog("Please select a person from list to update", "Oops..!");
+                await dialog.ShowAsync();
             }
+                
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
