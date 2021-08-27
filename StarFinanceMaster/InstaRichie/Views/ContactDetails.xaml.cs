@@ -133,22 +133,14 @@ namespace StartFinance.Views
         {
             if (ContactView.SelectedItem != null)
             {
+                int AccSelection_id = ((Contact)ContactView.SelectedItem).ID;
                 try
                 {
-                    string AccSelection_FirstName = ((Contact)ContactView.SelectedItem).FirstName;
-                    string AccSelection_LastName = ((Contact)ContactView.SelectedItem).LastName;
-                    if (AccSelection_FirstName == "")
-                    {
-                        MessageDialog dialog = new MessageDialog("Not selected the Item", "Oops..!");
-                        await dialog.ShowAsync();
-                    }
-                    else
-                    {
-                        conn.CreateTable<Contact>();
-                        var query1 = conn.Table<Contact>();
-                        var query3 = conn.Query<Contact>("DELETE FROM Contact WHERE FirstName ='" + AccSelection_FirstName + "'" + "AND LastName ='" + AccSelection_LastName + "'");
-                        ContactView.ItemsSource = query1.ToList();
-                    }
+                    conn.CreateTable<Contact>();
+                    var query1 = conn.Table<Contact>();
+                    var query3 = conn.Query<Contact>("DELETE FROM Contact WHERE ID ='" + AccSelection_id + "'");
+                    ContactView.ItemsSource = query1.ToList();
+                    
                 }
                 catch (Exception ex)
                 {
