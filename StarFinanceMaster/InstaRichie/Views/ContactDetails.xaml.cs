@@ -166,54 +166,63 @@ namespace StartFinance.Views
 
         private async void UpdateItem_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (ContactView.SelectedItem != null)
             {
-                if (FirstName.Text.ToString() == "")
+                int AccSelection_id = ((Contact)ContactView.SelectedItem).ID;
+                try
                 {
-                    MessageDialog dialog = new MessageDialog("First Name Empty", "Oops..!");
-                    await dialog.ShowAsync();
+                    if (FirstName.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("First Name Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else if (LastName.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("Last Name Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+
+                    else if (CompanyName.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("Email Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else if (Phone.Text.ToString() == "")
+                    {
+                        MessageDialog dialog = new MessageDialog("Phone Empty", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    //update contact details
+                    else
+                    {
+                        conn.CreateTable<Contact>();
+                        var query1 = conn.Table<Contact>();
+                        var query3 = conn.Query<Contact>("UPDATE CONTACT SET FirstName = '" + FirstName.Text.ToString() + "', LastName = '" + LastName.Text.ToString() + "', CompanyName = '" + CompanyName.Text.ToString() + "', Phone = '" + Phone.Text.ToString() + "'WHERE ID = '" + AccSelection_id + "'");
+                        ContactView.ItemsSource = query1.ToList();
+                    }
                 }
-                else if (LastName.Text.ToString() == "")
+                catch (Exception ex)
                 {
-                    MessageDialog dialog = new MessageDialog("Last Name Empty", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                
-                else if (CompanyName.Text.ToString() == "")
-                {
-                    MessageDialog dialog = new MessageDialog("Email Empty", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                else if (Phone.Text.ToString() == "")
-                {
-                    MessageDialog dialog = new MessageDialog("Phone Empty", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                //create contact table, then insert record into contact table
-                else
-                {
-                    conn.CreateTable<Contact>();
-                    var query1 = conn.Table<Contact>();
-                    var query3 = conn.Query<Contact>("UPDATE CONTACT SET CompanyName = '" + CompanyName.Text.ToString() + "', Phone = '" + Phone.Text.ToString() + "'WHERE FirstName = '" + FirstName.Text.ToString() + "'" + "AND LastName = '" + LastName.Text.ToString() + "'");
-                    ContactView.ItemsSource = query1.ToList();
+                    if (ex is FormatException)
+                    {
+                        MessageDialog dialog = new MessageDialog("You forgot to enter some information", "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else if (ex is SQLiteException)
+                    {
+                        MessageDialog dialog = new MessageDialog(ex.ToString(), "Oops..!");
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        /// no idea
+                    }
                 }
             }
-            catch (Exception ex)
+            else
             {
-                if (ex is FormatException)
-                {
-                    MessageDialog dialog = new MessageDialog("You forgot to enter some information", "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                else if (ex is SQLiteException)
-                {
-                    MessageDialog dialog = new MessageDialog(ex.ToString(), "Oops..!");
-                    await dialog.ShowAsync();
-                }
-                else
-                {
-                    /// no idea
-                }
+                MessageDialog dialog = new MessageDialog("Please select a contact from list to update", "Oops..!");
+                await dialog.ShowAsync();
             }
         }
 
