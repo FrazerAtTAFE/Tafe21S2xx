@@ -129,7 +129,7 @@
                         <TextBox x:Name="LastName" PlaceholderText="Wang" Header="Last Name:"/>
                         <CalendarDatePicker x:Name="Birthday" Header="DateOfBirth:" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                         <TextBox x:Name="Gender" PlaceholderText="Female" Header="Gender:"/>
-                        <TextBox x:Name="Email" PlaceholderText="shan.wang@hotmail.com" Header="Email Adress:"/>
+                        <TextBox x:Name="Email" PlaceholderText="shan.wang@hotmail.com" Header="Email Address:"/>
                         <TextBox x:Name="Phone" PlaceholderText="0412345678" Header="Mobile Phone:" InputScope="TelephoneNumber"/>
                     </StackPanel>
                     <ListView x:Name="PersonalInfoView" Grid.Row="1"
