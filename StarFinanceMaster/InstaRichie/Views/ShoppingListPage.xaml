@@ -36,8 +36,22 @@
         <vm:MainPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
 
+    <Page.Resources>
+        <DataTemplate x:Key="ShoppingListDataViews">
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding DateTime.Date}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding ItemName}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding ShopName}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding Price}"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
     <Grid>
         <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            
             <!-- header -->
             <controls:PageHeader x:Name="pageHeader" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
@@ -49,6 +63,7 @@
                 </controls:PageHeader.SecondaryCommands>
             </controls:PageHeader>
             <!-- header end -->
+            
             <!-- footer -->
             <controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True"
                              RelativePanel.AlignRightWithPanel="True"
@@ -79,16 +94,17 @@
                             <TextBox x:Name="ShopName" PlaceholderText="Woolworths" Header="Shop Name"/>
                             <TextBox x:Name="Price" Header="Price" PlaceholderText="100.00" TextWrapping="Wrap" InputScope="Number"/>
                         </StackPanel>
-                        <!-- TODO: add static resource to dataview-->
                         <ListView x:Name="ShoppingListView" Grid.Row="1"
                               HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch">
+                              VerticalAlignment="Stretch"
+                              ItemTemplate="{StaticResource ShoppingListDataViews}" SelectionChanged="ShoppingList_SelectChange">
                             <RelativePanel.Below>pageStart</RelativePanel.Below>
                         </ListView>
                     </Grid>
                 </PivotItem>
             </Pivot>
             <!--Page Contents end -->
+            
         </RelativePanel>
     </Grid>
 </Page>
