@@ -99,7 +99,21 @@
                 </StackPanel>
             </Controls:HamburgerButtonInfo>
 
-            <!--  Wish List button  -->
+
+            <!--  Add by Shan Wang on 15/08/2021  -->
+            <!--  Contact Info button  -->
+            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ContactDetailsPage" 
+                                          AutomationProperties.Name="Jerry"
+                                          >
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Width="48" Height="48"
+                		Symbol="Contact" />
+                    <TextBlock Margin="12,0,0,0" VerticalAlignment="Center"
+                               Text="Contacts" />
+                </StackPanel>
+            </Controls:HamburgerButtonInfo>
+
+            <!--  Shopping List button  -->
             <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ShoppingListPage" 
                                           AutomationProperties.Name="Jerry"
                                           >
@@ -114,7 +128,7 @@
 
         <Controls:HamburgerMenu.SecondaryButtons>
 
-            <!--  Shopping List button  -->
+
             <Controls:HamburgerButtonInfo x:Name="SettingsButton" PageParameter="0"
                                           PageType="views:SettingsPage">
                 <Controls:HamburgerButtonInfo.NavigationTransitionInfo>
