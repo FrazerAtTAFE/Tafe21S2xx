@@ -50,9 +50,9 @@ namespace StartFinance.Models
         public string Location { get; set; }
 
         [NotNull]
-        public DateTime DateTime { get; set; }
+        public DateTime EventDateTime { get; set; }
 
         [NotNull]
-        public DateTime DateTimeFinish { get; set; }
+        public DateTime EventDateTimeFinish { get; set; }
     }
 }

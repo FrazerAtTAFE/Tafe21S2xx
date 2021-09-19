@@ -95,6 +95,7 @@
                             <TextBox x:Name="eventLocation" PlaceholderText="Where?" Header="Event location"/>
                             <DatePicker x:Name="eventDate" Header="Event Date, Start" />
                             <DatePicker x:Name="eventDateFinish" Header="Event Date, Finish" />
+                            
 
                         </StackPanel>
                         <ListView x:Name="AppointmentView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemTemplate="{StaticResource AppointmentDataViews}" SelectionChanged="Appointment_SelectChange">

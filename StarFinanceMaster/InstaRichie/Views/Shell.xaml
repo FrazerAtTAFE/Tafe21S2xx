@@ -99,7 +99,7 @@
                 </StackPanel>
             </Controls:HamburgerButtonInfo>
 
-            <!--  Appointments button  -->
+            <!--  Appointments button  // Developed by Vadim Kolosov -->
             <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:AppointmentPage" 
                                           AutomationProperties.Name="Jerry"
                                           >

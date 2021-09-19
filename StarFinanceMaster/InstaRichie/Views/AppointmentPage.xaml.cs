@@ -68,6 +68,7 @@ namespace StartFinance.Views
 
         public void Results()
         {
+            // conn.DropTable<Appointment>();
             // Create Appointment table
             conn.CreateTable<Appointment>();
             var query1 = conn.Table<Appointment>();
@@ -107,9 +108,16 @@ namespace StartFinance.Views
                     store it as datetime type.
                     DateTime date;
                     date = dateTimePicker1.Value;
-                    */
+
+                    DATETIME SQLite format: YYYY-MM-DD HH:MI:SS
 
                     // Convert from DateTimeOffset to DateTime
+                    string CDay = Birthday.Date.Value.Day.ToString();
+                    string CMonth = Birthday.Date.Value.Month.ToString();
+                    string CYear = Birthday.Date.Value.Year.ToString();
+                    String DateTime = "" + CMonth + "/" + CDay + "/" + CYear;
+                    */
+
                     DateTime tempDate = eventDate.Date.DateTime;
                     DateTime tempDateFinish = eventDateFinish.Date.DateTime;
 
@@ -124,8 +132,8 @@ namespace StartFinance.Views
                     {
                         EventName = eventName.Text.ToString(),
                         Location = eventLocation.Text.ToString(),
-                        DateTime = tempDate,
-                        DateTimeFinish = tempDateFinish
+                        EventDateTime = tempDate,
+                        EventDateTimeFinish = tempDateFinish
                     });
 
                     // Update ListView
@@ -210,8 +218,8 @@ namespace StartFinance.Views
                             ID = selection,
                             EventName = tempEvent,
                             Location = tempLocation,
-                            DateTime = tempDate,
-                            DateTimeFinish = tempDateFinish
+                            EventDateTime = tempDate,
+                            EventDateTimeFinish = tempDateFinish
                         });
 
                         // Update ListView
@@ -278,8 +286,8 @@ namespace StartFinance.Views
                 // 1. Get selected data
                 string tempEvent = ((Appointment)AppointmentView.SelectedItem).EventName;
                 string tempLocation = ((Appointment)AppointmentView.SelectedItem).Location;
-                DateTime tempDate = ((Appointment)AppointmentView.SelectedItem).DateTime;
-                DateTime tempDateFinish = ((Appointment)AppointmentView.SelectedItem).DateTimeFinish;
+                DateTime tempDate = ((Appointment)AppointmentView.SelectedItem).EventDateTime;
+                DateTime tempDateFinish = ((Appointment)AppointmentView.SelectedItem).EventDateTimeFinish;
 
                 // 2. populate input fields
                 eventName.Text = tempEvent;
