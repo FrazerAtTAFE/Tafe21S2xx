@@ -24,6 +24,7 @@
     Date        Notes
     ================================================
     19.09.2021  First version
+    19.09.2021  Added date and start time to the appointments list, corrected "events" headers to "appointment"
 
 -->
 
@@ -46,9 +47,13 @@
             <Grid>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding EventName}" Padding="0,0,15,0"/>
+                    <TextBlock Text="at" Padding="0,0,15,0"/>
                     <TextBlock Text="{Binding Location}" Padding="0,0,15,0"/>
-                    <TextBlock Text="{Binding DateTime.DateTime}" Padding="0,0,15,0"/>
-                    <TextBlock Text="{Binding DateTime.DateTimeFinish}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding DateTime.EventDate}" Padding="0,0,15,0"/>
+                    <TextBlock Text="in" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding EventTimeStartH}" Padding="0,0,15,0"/>
+                    <TextBlock Text=":" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding EventTimeStartM}" Padding="0,0,15,0"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -90,8 +95,8 @@
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
-                            <TextBox x:Name="eventName" PlaceholderText="What?" Header="Event name"/>
-                            <TextBox x:Name="eventLocation" PlaceholderText="Where?" Header="Event location"/>
+                            <TextBox x:Name="eventName" PlaceholderText="What?" Header="Appointment name"/>
+                            <TextBox x:Name="eventLocation" PlaceholderText="Where?" Header="Appointment location"/>
                             <DatePicker x:Name="eventDate" Header="Appointment is on" />
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Starts at: " Width="80" />
@@ -105,46 +110,7 @@
                                 <TextBlock Text=" (24h). Minutes: " />
                                 <TextBox x:Name="eventTimeFinishM" PlaceholderText="Minutes" />
                             </StackPanel>
-                            <!--
-                                SECOND OPTION:
-                                <TextBlock Text="Starts at: " Width="80" />
-                                <ComboBox x:Name="eventTimeStartH" PlaceholderText="Hours" SelectedIndex="0">
-                                    <x:String>00</x:String>
-                                    <x:String>01</x:String>
-                                    <x:String>02</x:String>
-                                    <x:String>03</x:String>
-                                    <x:String>04</x:String>
-                                    <x:String>05</x:String>
-                                    <x:String>06</x:String>
-                                    <x:String>07</x:String>
-                                </ComboBox>
-                                <ComboBox x:Name="eventTimeStartM" PlaceholderText="MM" SelectedIndex="0">
-                                    <x:String>00</x:String>
-                                    <x:String>30</x:String>
-                                </ComboBox>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Finishes at: " Width="80" />
-                                <ComboBox x:Name="eventTimeFinishH" PlaceholderText="Hours" SelectedIndex="0">
-                                    <x:String>00</x:String>
-                                    <x:String>01</x:String>
-                                    <x:String>02</x:String>
-                                    <x:String>03</x:String>
-                                    <x:String>04</x:String>
-                                    <x:String>05</x:String>
-                                    <x:String>06</x:String>
-                                    <x:String>07</x:String>
-                                </ComboBox>
-                                <ComboBox x:Name="eventTimeFinishM" PlaceholderText="MM" SelectedIndex="0">
-                                    <x:String>00</x:String>
-                                    <x:String>30</x:String>
-                                </ComboBox>
-                            </StackPanel>
-                            
-                            FIRST OPTION: <TimePicker x:Name="eventTimeStart" Header="Starts at" SelectedTime="10:00:00" ClockIdentifier="24HourClock" />
-                            <TimePicker x:Name="eventTimeFinish" Header="Finishes at" SelectedTime="11:00:00" ClockIdentifier="24HourClock" />
-                                -->
-                            
+
                         </StackPanel>
                         <ListView x:Name="AppointmentView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemTemplate="{StaticResource AppointmentDataViews}" SelectionChanged="Appointment_SelectChange">
                             <RelativePanel.Below>pageStart</RelativePanel.Below>
