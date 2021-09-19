@@ -49,8 +49,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace StartFinance.Views
 {
-    // ShoppingList -> Appointment DELETE
-
     public sealed partial class AppointmentPage : Page
     {
         SQLiteConnection conn; // adding an SQLite connection
@@ -80,6 +78,8 @@ namespace StartFinance.Views
         private async void AddAppointment_Click(object sender, RoutedEventArgs e)
         {
             // VALIDATE INPUT
+            // May add in the future: validating finish time to be later than start time. 
+            // empty fields validation
             if (eventName.Text.ToString() == "")
             {
                 MessageDialog dialog = new MessageDialog("Please enter Event Name", "Oops..!");
@@ -92,13 +92,16 @@ namespace StartFinance.Views
             }
             else if (eventDate.SelectedDate == null)
             {
-                MessageDialog dialog = new MessageDialog("Please enter start date and time", "Oops..!");
+                MessageDialog dialog = new MessageDialog("Please enter event date", "Oops..!");
                 await dialog.ShowAsync();
             }
-            else if (eventDateFinish.SelectedDate == null)
+            else if (eventTimeStartM.Text.ToString() == "")
             {
-                MessageDialog dialog = new MessageDialog("Please enter finish date and time", "Oops..!");
-                await dialog.ShowAsync();
+                eventTimeStartM.Text = "00";
+            }
+            else if (eventTimeFinishM.Text.ToString() == "")
+            {
+                eventTimeFinishM.Text = "00";
             }
             else
             {
@@ -119,21 +122,18 @@ namespace StartFinance.Views
                     */
 
                     DateTime tempDate = eventDate.Date.DateTime;
-                    DateTime tempDateFinish = eventDateFinish.Date.DateTime;
 
                     conn.CreateTable<Appointment>();
 
-                    // ShopName -> Location DELETE
-                    // ItemName -> EventName DELETE 
-                    // Price -> DateTimeFinish
-
-                    // Insert current data to database
                     conn.Insert(new Appointment
                     {
                         EventName = eventName.Text.ToString(),
                         Location = eventLocation.Text.ToString(),
-                        EventDateTime = tempDate,
-                        EventDateTimeFinish = tempDateFinish
+                        EventDate = tempDate,
+                        EventTimeStartH = eventTimeStartH.Text.ToString(),
+                        EventTimeStartM = eventTimeStartM.Text.ToString(),
+                        EventTimeFinishH = eventTimeFinishH.Text.ToString(),
+                        EventTimeFinishM = eventTimeFinishM.Text.ToString()
                     });
 
                     // Update ListView
@@ -160,7 +160,7 @@ namespace StartFinance.Views
             }
         }
 
-        private async void EditeAppointment_Click(object sender, RoutedEventArgs e)
+        private async void EditAppointment_Click(object sender, RoutedEventArgs e)
         {
             if (AppointmentView.SelectedIndex == -1)
             {
@@ -174,8 +174,13 @@ namespace StartFinance.Views
                 string tempLocation = eventLocation.Text.ToString();
                 // DateTime tempDate = DateTime.Date.DateTime;
                 // DateTime tempDateFinish = DateTimeFinish.Date.DateTime;
-                DateTime tempDate = DateTime.Now;
-                DateTime tempDateFinish = DateTime.Now;
+
+                DateTime tempDate = eventDate.Date.DateTime;
+
+                string tempEventTimeStartH = eventTimeStartH.Text.ToString();
+                string tempEventTimeStartM = eventTimeStartM.Text.ToString();
+                string tempEventTimeFinishH = eventTimeFinishH.Text.ToString();
+                string tempEventTimeFinishM = eventTimeFinishM.Text.ToString();
 
                 // VALIDATE INPUT
                 if (tempEvent == "")
@@ -195,12 +200,9 @@ namespace StartFinance.Views
                     MessageDialog dialog = new MessageDialog("Please enter when event starts", "Oops..!");
                     await dialog.ShowAsync();
                 }
-                // also below:
-                else if (tempDateFinish == null)
-                {
-                    MessageDialog dialog = new MessageDialog("Please enter when event finishes", "Oops..!");
-                    await dialog.ShowAsync();
-                }
+
+                // Can add time validation 
+
                 else
                 {
                     try
@@ -218,8 +220,11 @@ namespace StartFinance.Views
                             ID = selection,
                             EventName = tempEvent,
                             Location = tempLocation,
-                            EventDateTime = tempDate,
-                            EventDateTimeFinish = tempDateFinish
+                            EventDate = tempDate,
+                            EventTimeStartH = eventTimeStartH.Text,
+                            EventTimeStartM = eventTimeStartM.Text,
+                            EventTimeFinishH = eventTimeFinishH.Text,
+                            EventTimeFinishM = eventTimeFinishM.Text
                         });
 
                         // Update ListView
@@ -256,7 +261,7 @@ namespace StartFinance.Views
                     conn.CreateTable<Appointment>();
                     conn.Table<Appointment>();
                     
-                    // Delete the item
+                    // Delete a record
                     conn.Query<Appointment>("DELETE FROM Appointment WHERE ID ='" + selection + "'");
 
                     // Update the listview
@@ -286,14 +291,18 @@ namespace StartFinance.Views
                 // 1. Get selected data
                 string tempEvent = ((Appointment)AppointmentView.SelectedItem).EventName;
                 string tempLocation = ((Appointment)AppointmentView.SelectedItem).Location;
-                DateTime tempDate = ((Appointment)AppointmentView.SelectedItem).EventDateTime;
-                DateTime tempDateFinish = ((Appointment)AppointmentView.SelectedItem).EventDateTimeFinish;
+                DateTime tempDate = ((Appointment)AppointmentView.SelectedItem).EventDate;
+                string tempEventTimeStartH = ((Appointment)AppointmentView.SelectedItem).EventTimeStartH;
+                string tempEventTimeStartM = ((Appointment)AppointmentView.SelectedItem).EventTimeStartM;
 
                 // 2. populate input fields
                 eventName.Text = tempEvent;
                 eventLocation.Text = tempLocation;
                 eventDate.Date = tempDate;
-                eventDateFinish.Date = tempDateFinish;
+                eventTimeStartH.Text = tempEventTimeStartH;
+                eventTimeStartM.Text = tempEventTimeStartM;
+                eventTimeFinishH.Text = ((Appointment)AppointmentView.SelectedItem).EventTimeFinishH;
+                eventTimeFinishM.Text = ((Appointment)AppointmentView.SelectedItem).EventTimeFinishM;
             }
         }
     }

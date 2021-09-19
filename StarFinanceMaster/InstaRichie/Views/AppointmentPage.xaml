@@ -25,7 +25,6 @@
     ================================================
     19.09.2021  First version
 
-// ShoppingList -> Appointment DELETE
 -->
 
 <Page x:Class="StartFinance.Views.AppointmentPage"
@@ -72,8 +71,8 @@
             <controls:PageHeader x:Name="pageFooter" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
                 <controls:PageHeader.PrimaryCommands>
                     <!-- changed icon "Add" to "Save" -->
-                    <AppBarButton Icon="Save" Label="Add Appointment" Click="AddAppointment_Click"/>
-                    <AppBarButton Icon="Edit" Label="Edit Appointment" Click="EditeAppointment_Click"/>
+                    <AppBarButton Icon="Save" Label="Add New Appointment" Click="AddAppointment_Click"/>
+                    <AppBarButton Icon="Edit" Label="Edit Appointment" Click="EditAppointment_Click"/>
                     <AppBarButton Icon="Delete" Label="Delete Appointment" Click="DeleteAppointment_Click"/>
                 </controls:PageHeader.PrimaryCommands>
             </controls:PageHeader>
@@ -83,20 +82,69 @@
             <Pivot>
                 <RelativePanel.Below>pageHeader</RelativePanel.Below>
                 <RelativePanel.Above>pageFooter</RelativePanel.Above>
-                <PivotItem Header="Add Appointment">
+                <PivotItem Header="Appointments">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="250"/>
+                            <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                            
+
                             <TextBox x:Name="eventName" PlaceholderText="What?" Header="Event name"/>
                             <TextBox x:Name="eventLocation" PlaceholderText="Where?" Header="Event location"/>
-                            <DatePicker x:Name="eventDate" Header="Event Date, Start" />
-                            <DatePicker x:Name="eventDateFinish" Header="Event Date, Finish" />
+                            <DatePicker x:Name="eventDate" Header="Appointment is on" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Starts at: " Width="80" />
+                                <TextBox x:Name="eventTimeStartH" PlaceholderText="Hours" />
+                                <TextBlock Text=" (24h). Minutes: " />
+                                <TextBox x:Name="eventTimeStartM" PlaceholderText="Minutes" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Finishes at: " Width="80" />
+                                <TextBox x:Name="eventTimeFinishH" PlaceholderText="Hours" />
+                                <TextBlock Text=" (24h). Minutes: " />
+                                <TextBox x:Name="eventTimeFinishM" PlaceholderText="Minutes" />
+                            </StackPanel>
+                            <!--
+                                SECOND OPTION:
+                                <TextBlock Text="Starts at: " Width="80" />
+                                <ComboBox x:Name="eventTimeStartH" PlaceholderText="Hours" SelectedIndex="0">
+                                    <x:String>00</x:String>
+                                    <x:String>01</x:String>
+                                    <x:String>02</x:String>
+                                    <x:String>03</x:String>
+                                    <x:String>04</x:String>
+                                    <x:String>05</x:String>
+                                    <x:String>06</x:String>
+                                    <x:String>07</x:String>
+                                </ComboBox>
+                                <ComboBox x:Name="eventTimeStartM" PlaceholderText="MM" SelectedIndex="0">
+                                    <x:String>00</x:String>
+                                    <x:String>30</x:String>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Finishes at: " Width="80" />
+                                <ComboBox x:Name="eventTimeFinishH" PlaceholderText="Hours" SelectedIndex="0">
+                                    <x:String>00</x:String>
+                                    <x:String>01</x:String>
+                                    <x:String>02</x:String>
+                                    <x:String>03</x:String>
+                                    <x:String>04</x:String>
+                                    <x:String>05</x:String>
+                                    <x:String>06</x:String>
+                                    <x:String>07</x:String>
+                                </ComboBox>
+                                <ComboBox x:Name="eventTimeFinishM" PlaceholderText="MM" SelectedIndex="0">
+                                    <x:String>00</x:String>
+                                    <x:String>30</x:String>
+                                </ComboBox>
+                            </StackPanel>
                             
-
+                            FIRST OPTION: <TimePicker x:Name="eventTimeStart" Header="Starts at" SelectedTime="10:00:00" ClockIdentifier="24HourClock" />
+                            <TimePicker x:Name="eventTimeFinish" Header="Finishes at" SelectedTime="11:00:00" ClockIdentifier="24HourClock" />
+                                -->
+                            
                         </StackPanel>
                         <ListView x:Name="AppointmentView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemTemplate="{StaticResource AppointmentDataViews}" SelectionChanged="Appointment_SelectChange">
                             <RelativePanel.Below>pageStart</RelativePanel.Below>
