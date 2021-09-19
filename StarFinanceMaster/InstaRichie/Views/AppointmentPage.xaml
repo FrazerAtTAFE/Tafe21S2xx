@@ -49,11 +49,12 @@
                     <TextBlock Text="{Binding EventName}" Padding="0,0,15,0"/>
                     <TextBlock Text="at" Padding="0,0,15,0"/>
                     <TextBlock Text="{Binding Location}" Padding="0,0,15,0"/>
-                    <TextBlock Text="{Binding DateTime.EventDate}" Padding="0,0,15,0"/>
-                    <TextBlock Text="in" Padding="0,0,15,0"/>
-                    <TextBlock Text="{Binding EventTimeStartH}" Padding="0,0,15,0"/>
-                    <TextBlock Text=":" Padding="0,0,15,0"/>
-                    <TextBlock Text="{Binding EventTimeStartM}" Padding="0,0,15,0"/>
+                    <TextBlock Text="on" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding EventDate}" />
+                    <TextBlock Text=" in " Padding="0,0,0,0"/>
+                    <TextBlock Text="{Binding EventTimeStartH}" Padding="0,0,5,0"/>
+                    <TextBlock Text=":" Padding="0,0,5,0"/>
+                    <TextBlock Text="{Binding EventTimeStartM}" Padding="0,0,5,0"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -97,7 +98,8 @@
 
                             <TextBox x:Name="eventName" PlaceholderText="What?" Header="Appointment name"/>
                             <TextBox x:Name="eventLocation" PlaceholderText="Where?" Header="Appointment location"/>
-                            <DatePicker x:Name="eventDate" Header="Appointment is on" />
+                            <TextBox x:Name="eventDate" PlaceholderText="DD.MM.YYYY" Header="Appointment is on"/>
+                            <!--<CalendarDatePicker x:Name="eventDate" Header="Appointment is on" />-->
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Starts at: " Width="80" />
                                 <TextBox x:Name="eventTimeStartH" PlaceholderText="Hours" />
@@ -112,6 +114,7 @@
                             </StackPanel>
 
                         </StackPanel>
+
                         <ListView x:Name="AppointmentView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemTemplate="{StaticResource AppointmentDataViews}" SelectionChanged="Appointment_SelectChange">
                             <RelativePanel.Below>pageStart</RelativePanel.Below>
                         </ListView>

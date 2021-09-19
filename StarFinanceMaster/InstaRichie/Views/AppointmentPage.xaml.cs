@@ -90,7 +90,7 @@ namespace StartFinance.Views
                 MessageDialog dialog = new MessageDialog("Please enter Event Location", "Oops..!");
                 await dialog.ShowAsync();
             }
-            else if (eventDate.SelectedDate == null)
+            else if (eventDate == null)
             {
                 MessageDialog dialog = new MessageDialog("Please enter event date", "Oops..!");
                 await dialog.ShowAsync();
@@ -115,13 +115,13 @@ namespace StartFinance.Views
                     DATETIME SQLite format: YYYY-MM-DD HH:MI:SS
 
                     // Convert from DateTimeOffset to DateTime
-                    string CDay = Birthday.Date.Value.Day.ToString();
-                    string CMonth = Birthday.Date.Value.Month.ToString();
-                    string CYear = Birthday.Date.Value.Year.ToString();
-                    String DateTime = "" + CMonth + "/" + CDay + "/" + CYear;
+                    string CDay = eventDate.Date.Value.Day.ToString();
+                    string CMonth = eventDate.Date.Value.Month.ToString();
+                    string CYear = eventDate.Date.Value.Year.ToString();
+                    string tempDate = "" + CDay + "." + CMonth + "." + CYear;
                     */
 
-                    DateTime tempDate = eventDate.Date.DateTime;
+                    // DateTime tempDate = eventDate.Date.DateTime;
 
                     conn.CreateTable<Appointment>();
 
@@ -129,7 +129,7 @@ namespace StartFinance.Views
                     {
                         EventName = eventName.Text.ToString(),
                         Location = eventLocation.Text.ToString(),
-                        EventDate = tempDate,
+                        EventDate = eventDate.Text,
                         EventTimeStartH = eventTimeStartH.Text.ToString(),
                         EventTimeStartM = eventTimeStartM.Text.ToString(),
                         EventTimeFinishH = eventTimeFinishH.Text.ToString(),
@@ -175,7 +175,12 @@ namespace StartFinance.Views
                 // DateTime tempDate = DateTime.Date.DateTime;
                 // DateTime tempDateFinish = DateTimeFinish.Date.DateTime;
 
-                DateTime tempDate = eventDate.Date.DateTime;
+                // DateTime tempDate = eventDate.Date.DateTime;
+
+                //string CDay = eventDate.Date.Value.Day.ToString();
+                //string CMonth = eventDate.Date.Value.Month.ToString();
+                //string CYear = eventDate.Date.Value.Year.ToString();
+                //string tempDate = "" + CDay + "." + CMonth + "." + CYear;
 
                 string tempEventTimeStartH = eventTimeStartH.Text.ToString();
                 string tempEventTimeStartM = eventTimeStartM.Text.ToString();
@@ -195,7 +200,7 @@ namespace StartFinance.Views
                 }
                 
                 // else if (tempDate.SelectedDate == null)
-                else if (tempDate == null)
+                else if (eventDate == null)
                         {
                     MessageDialog dialog = new MessageDialog("Please enter when event starts", "Oops..!");
                     await dialog.ShowAsync();
@@ -220,7 +225,7 @@ namespace StartFinance.Views
                             ID = selection,
                             EventName = tempEvent,
                             Location = tempLocation,
-                            EventDate = tempDate,
+                            EventDate = eventDate.Text,
                             EventTimeStartH = eventTimeStartH.Text,
                             EventTimeStartM = eventTimeStartM.Text,
                             EventTimeFinishH = eventTimeFinishH.Text,
@@ -291,14 +296,15 @@ namespace StartFinance.Views
                 // 1. Get selected data
                 string tempEvent = ((Appointment)AppointmentView.SelectedItem).EventName;
                 string tempLocation = ((Appointment)AppointmentView.SelectedItem).Location;
-                DateTime tempDate = ((Appointment)AppointmentView.SelectedItem).EventDate;
+                // DateTime tempDate = ((Appointment)AppointmentView.SelectedItem).EventDate;
                 string tempEventTimeStartH = ((Appointment)AppointmentView.SelectedItem).EventTimeStartH;
                 string tempEventTimeStartM = ((Appointment)AppointmentView.SelectedItem).EventTimeStartM;
 
                 // 2. populate input fields
                 eventName.Text = tempEvent;
                 eventLocation.Text = tempLocation;
-                eventDate.Date = tempDate;
+                // eventDate.Date = tempDate;
+                eventDate.Text = ((Appointment)AppointmentView.SelectedItem).EventDate;
                 eventTimeStartH.Text = tempEventTimeStartH;
                 eventTimeStartM.Text = tempEventTimeStartM;
                 eventTimeFinishH.Text = ((Appointment)AppointmentView.SelectedItem).EventTimeFinishH;
