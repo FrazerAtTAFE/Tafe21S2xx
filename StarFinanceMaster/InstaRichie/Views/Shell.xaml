@@ -99,7 +99,6 @@
                 </StackPanel>
             </Controls:HamburgerButtonInfo>
 
-
             <!--  Add by Shan Wang on 15/08/2021  -->
             <!--  Contact Info button  -->
             <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ContactDetailsPage" 
@@ -134,6 +133,18 @@
                 		Symbol="Admin" />
                     <TextBlock Margin="12,0,0,0" VerticalAlignment="Center"
                                Text="Personal Information" />
+                </StackPanel>
+            </Controls:HamburgerButtonInfo>
+            
+            <!--  Appointments button  // Developed by Vadim Kolosov -->
+            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:AppointmentPage" 
+                                          AutomationProperties.Name="Jerry"
+                                          >
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Width="48" Height="48"
+                		Symbol="Calendar" />
+                    <TextBlock Margin="12,0,0,0" VerticalAlignment="Center"
+                               Text="Appointments" />
                 </StackPanel>
             </Controls:HamburgerButtonInfo>
             
